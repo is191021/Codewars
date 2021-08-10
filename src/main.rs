@@ -25,7 +25,10 @@ fn main() {
         Name::Howard,
     ];
     println!("{:?}",who_is_next(names,6));*/
-    println!("Survivor: {:?}",josephus_survivor(11,19));
+    //println!("Survivor: {:?}",josephus_survivor(11,19));
+    println!("Chance: {:?}",rolldice_sum_prob(11,2));
+    println!("Chance: {:?}",rolldice_sum_prob(8,3));
+    println!("Chance: {:?}",rolldice_sum_prob(8,2));
 
 }
 
@@ -433,6 +436,32 @@ fn josephus_survivor(n: i32, k: i32) -> i32 {
 }
 
 
+fn rolldice_sum_prob(sum:i32, dice_amount:i32) -> f64 {
+    let mut dic_vec = vec![];
+    let mut start= 0;
+    let mut end = 0;
+    for _jj in 0..dice_amount{
+        start += (sum/dice_amount-3)*(6_i32.pow(_jj as u32));
+        end += (sum/dice_amount+3)*(6_i32.pow(_jj as u32));
+    }
+    println!("{:?}",start);
+    println!("{:?}",end);
+    for ii in start.. 6_i32.pow(dice_amount as u32){
+        let mut roll = vec![];
+        let mut hilfe = ii;
+        for _jj in 0..dice_amount{
+            roll.push(hilfe%6+1);
+            hilfe = hilfe / 6;
+        }
+        if roll.iter().sum::<i32>() == sum{
+            dic_vec.push(roll.clone());
+        }
+        roll.clear();
+    }
+
+    dic_vec.iter().count() as f64 / 6_i32.pow(dice_amount as u32) as f64
+}
+
 
 /*
 Fragenblock
@@ -441,5 +470,7 @@ Strings
 Mathematic (casts uX)
 
 Ist None wie NULL in java
+
+Early Return
 
  */
